@@ -61,6 +61,12 @@ def compute_z(
     for i in range(len(rewriting_prompts)):
         ex_len = input_tok["attention_mask"][i].sum()
         rewriting_targets[i, ex_len - len(target_ids) : ex_len] = target_ids
+    print("target_ids")
+    print(target_ids)
+    for _ids in target_ids:
+      print(tok.decode(_ids))
+    print("rewriting_targets")
+    print(rewriting_targets)
 
     # Compute indices of the tokens where the fact is looked up
     lookup_idxs = [
