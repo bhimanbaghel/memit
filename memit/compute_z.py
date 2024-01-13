@@ -42,7 +42,8 @@ def compute_z(
 
     # Compile list of rewriting and KL x/y pairs
     rewriting_prompts, kl_prompts = [
-        context.format(request["prompt"]) + tok.decode(target_ids[:-1])
+        # context.format(request["prompt"]) + tok.decode(target_ids[:-1])
+        context.format(request["prompt"])
         for context_types in context_templates
         for context in context_types
     ], ["{} is a"]
@@ -61,10 +62,9 @@ def compute_z(
     for i in range(len(rewriting_prompts)):
         ex_len = input_tok["attention_mask"][i].sum()
         rewriting_targets[i, ex_len - len(target_ids) : ex_len] = target_ids
-    print("target_ids")
-    print(target_ids)
-    for _ids in target_ids:
-      print(tok.decode(_ids))
+    
+    print("target")
+    print("+".join([tok.decode(_ids) for _ids in target_ids]))
     print("rewriting_targets")
     print(rewriting_targets)
 
