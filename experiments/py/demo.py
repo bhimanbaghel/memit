@@ -62,9 +62,22 @@ def demo_model_editing(
     print(post_update_text)
 
     print_loud("Summarizing differences")
+    targets = []
+    total = 0
+    count = 0
+    for request in requests:
+      targets.append(request["target_new"]["str"])
     for i, (prompt, pre, post) in enumerate(
         zip(generation_prompts, pre_update_text, post_update_text)
     ):
+        total += 1
+        flag = 0
+        for target in targets:
+          if target in post:
+            flag = 1
+            break
+        if flag:
+          count += 1 
         if i > 0:
             print("".join(["-" for _ in range(10)]))
 
@@ -76,6 +89,7 @@ def demo_model_editing(
         for s, t in zip([prompt_str, post_str, pre_str], [prompt, post, pre]):
             print(s.ljust(pad_to), t)
 
+    print(f"Accuracy: {count/total}")
     return model_new, orig_weights
 
 
